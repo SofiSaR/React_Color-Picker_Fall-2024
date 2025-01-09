@@ -7,6 +7,7 @@ import {
   getHueCoordinates,
   getSaturationCoordinates,
   hsvToRgb,
+  hslToRgb,
   parseColor,
   rgbToHex
 } from "../Utils/index.ts";
@@ -41,18 +42,37 @@ export const ColorPicker = (props: ColorPickerProps) => {
     },
     [onChange]
   );
-  const handleRgbChange = useCallback(
+//   const handleRgbChange = useCallback(
+//     (component, value) => {
+//       const { r, g, b } = parsedColor.rgb;
+//       switch (component) {
+//         case "r":
+//           onChange(rgbToHex({ r: value ?? 0, g, b }));
+//           return;
+//         case "g":
+//           onChange(rgbToHex({ r, g: value ?? 0, b }));
+//           return;
+//         case "b":
+//           onChange(rgbToHex({ r, g, b: value ?? 0 }));
+//           return;
+//         default:
+//           return;
+//       }
+//     },
+//     [parsedColor, onChange]
+//   );
+  const handleHslChange = useCallback(
     (component, value) => {
-      const { r, g, b } = parsedColor.rgb;
+      const { h, s, l } = parsedColor.hsl;
       switch (component) {
-        case "r":
-          onChange(rgbToHex({ r: value ?? 0, g, b }));
+        case "h":
+          onChange(rgbToHex(hslToRgb({ h: value ?? 0, s, l })));
           return;
-        case "g":
-          onChange(rgbToHex({ r, g: value ?? 0, b }));
+        case "s":
+          onChange(rgbToHex(hslToRgb({ h, s: value ?? 0, l })));
           return;
-        case "b":
-          onChange(rgbToHex({ r, g, b: value ?? 0 }));
+        case "l":
+          onChange(rgbToHex(hslToRgb({ h, s, l: value ?? 0 })));
           return;
         default:
           return;
@@ -92,6 +112,7 @@ export const ColorPicker = (props: ColorPickerProps) => {
           onSelect={onChange}
         />
       ) : (
+        <div>
         <FreeSelector
           parsedColor={parsedColor}
           satCoords={satCoords}
@@ -99,19 +120,11 @@ export const ColorPicker = (props: ColorPickerProps) => {
           onSaturationChange={handleSaturationChange}
           onHueChange={handleHueChange}
         />
-      )}
-      <div className="cp-input-container">
-        <div className="cp-input-group">
-          <div
-            className="cp-color-preview"
-            style={{
-              background: color
-            }}
-          />
-          <div>
-            <label className="cp-input-label" htmlFor="cp-input-hex">
-              Hex
-            </label>
+        <div style={{marginTop: '40px', justifyItems: 'center'}}>
+          <label className="cp-input-label" htmlFor="cp-input-hex">
+              Chosen Hex Color
+          </label>
+          <div className="cp-color-preview" style={{background: color, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
             <input
               id="cp-input-hex"
               className="cp-hex-input"
@@ -120,52 +133,56 @@ export const ColorPicker = (props: ColorPickerProps) => {
               onChange={handleHexChange}
             />
           </div>
-        </div>
-        <div className="cp-input-group">
+          <div className="cp-input-container">
+          <div className="cp-input-group">
           <div>
             <label className="cp-input-label" htmlFor="cp-input-r">
-              R
+              Hue
             </label>
             <input
               id="cp-input-r"
               className="cp-rgb-input"
-              placeholder="R"
-              value={parsedColor.rgb.r}
-              onChange={(event) => handleRgbChange("r", event.target.value)}
+              placeholder="H"
+              value={parsedColor.hsl.h}
+              onChange={(event) => handleHslChange("h", event.target.value)}
               inputMode="numeric"
               pattern="[0-9]*"
             />
           </div>
           <div>
             <label className="cp-input-label" htmlFor="cp-input-g">
-              G
+              Saturation
             </label>
             <input
               id="cp-input-g"
               className="cp-rgb-input"
-              placeholder="G"
-              value={parsedColor.rgb.g}
-              onChange={(event) => handleRgbChange("g", event.target.value)}
+              placeholder="S"
+              value={parsedColor.hsl.s}
+              onChange={(event) => handleHslChange("s", event.target.value)}
               inputMode="numeric"
               pattern="[0-9]*"
             />
           </div>
           <div>
             <label className="cp-input-label" htmlFor="cp-input-b">
-              B
+              Lightness
             </label>
             <input
               id="cp-input-b"
               className="cp-rgb-input"
-              placeholder="B"
-              value={parsedColor.rgb.b}
-              onChange={(event) => handleRgbChange("b", event.target.value)}
+              placeholder="L"
+              value={parsedColor.hsl.l}
+              onChange={(event) => handleHslChange("l", event.target.value)}
               inputMode="numeric"
               pattern="[0-9]*"
             />
           </div>
         </div>
+        </div>
+        
+        </div>
       </div>
+      )}
     </div>
   );
 };

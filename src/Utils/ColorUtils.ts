@@ -1,6 +1,6 @@
 // ColorUtils.ts
 import { Color, ColorRGB } from "../Interfaces/Color";
-import { hexToRgb, rgbToHex, rgbToHsv } from "./Converters.ts";
+import { hexToRgb, rgbToHex, rgbToHsv, rgbToHsl } from "./Converters.ts";
 export function getRgb(color: string): ColorRGB {
   const matches = /rgb\((\d+),\s?(\d+),\s?(\d+)\)/i.exec(color);
   const r = Number(matches?.[1] ?? 0);
@@ -24,19 +24,27 @@ export function parseColor(color: string): Color {
     s: 0,
     v: 0
   };
+  var hsl = {
+    h: 0,
+    s: 0,
+    l: 0
+  };
   if (color.slice(0, 1) === "#") {
     hex = color;
     rgb = hexToRgb(hex);
     hsv = rgbToHsv(rgb);
+    hsl = rgbToHsl(rgb);
   } else if (color.slice(0, 3) === "rgb") {
     rgb = getRgb(color);
     hex = rgbToHex(rgb);
     hsv = rgbToHsv(rgb);
+    hsl = rgbToHsl(rgb);
   }
   return {
     hex,
     rgb,
-    hsv
+    hsv,
+    hsl
   };
 }
 export function getSaturationCoordinates(color: Color): [number, number] {

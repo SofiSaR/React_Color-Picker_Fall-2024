@@ -1,0 +1,28 @@
+@font-face {
+    font-family: 'Avenir';
+    src: url('../public/fonts/Avenir-Book.otf') format('opentype');
+    font-weight: 400;
+  }
+  
+@font-face {
+    font-family: 'Avenir';
+    src: url('../public/fonts/Avenir-Medium.otf') format('opentype');
+    font-weight: 600;
+  }
+
+@font-face {
+    font-family: 'Avenir';
+    src: url('../public/fonts/Avenir-Heavy.otf') format('opentype');
+    font-weight: 700;
+  }
+
+@font-face {
+    font-family: 'Lato';
+    src: url('../public/fonts/LATO-REGULAR.TTF') format('truetype');
+    font-weight: 400;
+  }
+
+@font-face {
+    font-family: 'Open Sans';
+    src: url('../public/fonts/OpenSans-VariableFont_wdth\,wght.ttf') format('truetype');
+  }
